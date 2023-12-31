@@ -2,10 +2,13 @@ import React from "react";
 import clsx from "clsx";
 import { View } from "react-native";
 
-export default function ProgressBar({ color, percentage, children }) {
+export default function ProgressBar({ style, percentage }) {
   return (
-    <View className="items-start justify-center w-full h-6 my-4 bg-white rounded-3xl">
-      <View className="w-4/6 rounded-lg bg-bluey"></View>
+    <View className="w-full h-6 mt-2 mb-4 bg-gray-200 rounded-full dark:bg-gray-700">
+      <View
+        className={clsx("h-6  rounded-full", style)}
+        style={{ width: percentage }}
+      ></View>
     </View>
   );
 }

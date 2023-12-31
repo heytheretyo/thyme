@@ -23,7 +23,7 @@ export default function Index() {
         <Text className="mb-8 text-4xl font-semibold font-jakartasans-b">
           Your Habits
         </Text>
-        <HomeContainer href="/hourly" color="bg-limey">
+        <HomeContainer href="/category/hourly" color="bg-limey">
           Hourly
         </HomeContainer>
         <HomeContainer href="/daily" color="bg-orangey">
