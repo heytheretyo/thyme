@@ -37,7 +37,7 @@ export default function Index() {
             <HabitContainer
               key={index}
               color={"bg-orangey"}
-              href={`hourly-id-${habit.id}`}
+              href={`habit/${habit.id}`}
             >
               {habit.title}
             </HabitContainer>

@@ -15,6 +15,7 @@ interface Habit {
 type HabitType = "hourly" | "weekly" | "monthly" | "yearly";
 
 export interface HabitStoreState {
+  clearStore: () => void;
   habits: Array<Habit>;
   addHabit: (habit: Habit) => void;
   deleteHabit: (habitId: string) => void;
@@ -24,6 +25,7 @@ const useHabitStore = create<HabitStoreState>()(
   persist(
     (set, get) => ({
       habits: [],
+      clearStore: () => set({ habits: [] }),
       addHabit: (habit: Habit) => {
         set((state) => ({
           habits: [...state.habits, { ...habit, id: uuid.v4() as string }],

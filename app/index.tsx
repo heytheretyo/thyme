@@ -1,13 +1,15 @@
 import "expo-router/entry";
-import { Text, View } from "react-native";
+import { Button, Text, View } from "react-native";
 import { useFonts } from "expo-font";
 import HomeContainer from "../components/HomeContainer";
 import React from "react";
 import { StatusBar } from "expo-status-bar";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import useHabitStore from "../store/habitStore";
 
 export default function Index() {
+  const { clearStore } = useHabitStore();
   const [isLoaded] = useFonts({
     "JakartaSans-SemiBold": require("../assets/fonts/PlusJakartaSans-SemiBold.ttf"),
     "JakartaSans-Bold": require("../assets/fonts/PlusJakartaSans-Bold.ttf"),
@@ -17,6 +19,22 @@ export default function Index() {
   if (!isLoaded) {
     return null;
   }
+
+  // dev console
+
+  const clearAsyncStorage = async () => {
+    try {
+      await AsyncStorage.clear();
+      console.log("AsyncStorage has been cleared successfully!");
+    } catch (error) {
+      console.error("Error clearing AsyncStorage:", error);
+    }
+  };
+
+  const handleClearAllData = async () => {
+    await clearAsyncStorage();
+    clearStore();
+  };
 
   return (
     <>
@@ -39,6 +57,8 @@ export default function Index() {
           </HomeContainer>
           <StatusBar />
         </View>
+        {/*  dev */}
+        <Button title="Clear All Data" onPress={handleClearAllData} />
       </GestureHandlerRootView>
     </>
   );
