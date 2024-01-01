@@ -1,15 +1,28 @@
-import React, { useCallback, useMemo, useRef } from "react";
+import React, { useCallback, useMemo, useRef, useState } from "react";
 import { View, Text, Pressable, TextInput } from "react-native";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import Button from "./Button";
 import HabitButton from "./HabitButton";
+import useHabitStore from "../store/habitStore";
 
 export default function CreateHabitSlider({ bottomSheetModalRef }) {
+  const { addHabit } = useHabitStore();
+  const [habitTitle, setHabitTitle] = useState("");
+  const [extraNotes, setExtraNotes] = useState("");
+
   const snapPoints = useMemo(() => ["25%", "70%"], []);
 
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log("handleSheetChanges", index);
-  }, []);
+  const handleSheetChanges = useCallback((index: number) => {}, []);
+
+  const handleAddHabit = () => {
+    addHabit({
+      title: habitTitle,
+      desc: extraNotes,
+      type: "hourly",
+    });
+    setHabitTitle("");
+    setExtraNotes("");
+  };
 
   return (
     <BottomSheetModal
@@ -41,15 +54,19 @@ export default function CreateHabitSlider({ bottomSheetModalRef }) {
           What will be your habit?
         </Text>
         <TextInput
+          value={habitTitle}
+          onChangeText={(text) => setHabitTitle(text)}
           className={`w-full bg-white border border-gray-200 py-5 px-4 rounded-xl font-jakartasans-sb my-3`}
         />
         <Text className="mb-5 text-2xl text-white font-jakartasans-sb">
           Extra Notes
         </Text>
         <TextInput
+          value={extraNotes}
+          onChangeText={(text) => setExtraNotes(text)}
           className={`w-full bg-white border border-gray-200 py-5 px-4 rounded-xl font-jakartasans-sb  mb-5`}
         />
-        <HabitButton style={"bg-black py-4 "} callOnPress={undefined}>
+        <HabitButton style={"bg-black py-4 "} callOnPress={handleAddHabit}>
           Add Habit
         </HabitButton>
       </View>

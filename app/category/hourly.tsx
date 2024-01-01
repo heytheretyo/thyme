@@ -9,9 +9,12 @@ import {
   BottomSheetModalProvider,
 } from "@gorhom/bottom-sheet";
 import CreateHabitSlider from "../../components/CreateHabitSlider";
+import useHabitStore from "../../store/habitStore";
 
 export default function Index() {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+  const { habits } = useHabitStore();
+
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
   }, []);
@@ -28,20 +31,17 @@ export default function Index() {
           </Text>
           <ProgressBar style={"bg-purpey "} percentage={"56%"} />
           <Text className="mb-6 text-xl text-white font-jakartasans-sb">
-            You have 3 habits and you are 56% consistent.
+            You have {habits.length} habits and you are 56% consistent.
           </Text>
-          <HabitContainer color={"bg-orangey"} href={"hourly-id-231312"}>
-            Drink Water
-          </HabitContainer>
-          <HabitContainer color={"bg-orangey"} href={"hourly-id-231312"}>
-            Take a Break
-          </HabitContainer>
-          <HabitContainer color={"bg-orangey"} href={"hourly-id-231312"}>
-            Take a Break
-          </HabitContainer>
-          <HabitContainer color={"bg-orangey"} href={"hourly-id-231312"}>
-            Take a Break
-          </HabitContainer>
+          {habits.map((habit, index) => (
+            <HabitContainer
+              key={index}
+              color={"bg-orangey"}
+              href={`hourly-id-${habit.id}`}
+            >
+              {habit.title}
+            </HabitContainer>
+          ))}
           <HabitButton
             callOnPress={handlePresentModalPress}
             style={"flex-end bg-orangey"}
